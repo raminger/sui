@@ -1,35 +1,16 @@
-var data_links = "links.json";
-  
-$(document).ready(function(){
-  $.getJSON(data_links,
-    function (data) {
-      var mysource = $('#links-template').html();
-      var mytemplate = Handlebars.compile(mysource);
-      var myresult = mytemplate(data)
-      $('#links').html(myresult);
-  });
-});
+function fetchAndRender (name) {
+    fetch(name + '.json')
+        .then(response => response.json())
+        .then(data => {
+            const mysource = document.getElementById(name + '-template').innerHTML;
+            const mytemplate = Handlebars.compile(mysource);
+            const myresult = mytemplate(data);
+            document.getElementById(name).innerHTML = myresult;
+        });
+}
 
-var data_apps = "apps.json";
-  
-$(document).ready(function(){
-  $.getJSON(data_apps,
-    function (data) {
-      var mysource = $('#apps-template').html();
-      var mytemplate = Handlebars.compile(mysource);
-      var myresult = mytemplate(data)
-      $('#apps').html(myresult);
-  });
-});
-
-var data_providers = "providers.json";
-  
-$(document).ready(function(){
-  $.getJSON(data_providers,
-    function (data) {
-      var mysource = $('#providers-template').html();
-      var mytemplate = Handlebars.compile(mysource);
-      var myresult = mytemplate(data)
-      $('#providers').html(myresult);
-  });
+document.addEventListener('DOMContentLoaded', () => {
+    fetchAndRender('apps');
+    fetchAndRender('links');
+    fetchAndRender('providers');
 });
